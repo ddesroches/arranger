@@ -7,11 +7,12 @@ class Engine(object):
         self.filename = filename
         self.audiofile = audio.LocalAudioFile(filename, verbose=False)
         self.sections = self.audiofile.analysis.sections
-        # Current arrangement is whole track in order.
         self.arrangement = None
         self.collect = None
+        # Current arrangement is whole track in order.
         self.arrange(range(0, len(self.sections)))
         self.play_process = None
+        self.arrangement_changed = True
 
     def _write_output_file(self, section_list, output_file):
         if section_list:
@@ -32,7 +33,11 @@ class Engine(object):
             self.kill()
 
         tmpfile = '_tmpfile_.mp3'
-        self._write_output_file(section_list, tmpfile)
+        if section_list or self.arrangement_changed:
+            print "building new arrangement..."
+            self._write_output_file(section_list, tmpfile)
+            self.arrangement_changed = False
+
         self.play_process = subprocess.Popen("mpg123 -q " + tmpfile, shell=True,
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.STDOUT)
@@ -43,8 +48,10 @@ class Engine(object):
         self.collect = audio.AudioQuantumList()
         for s in self.arrangement:
             self.collect.append(self.sections[s])
+        self.arrangement_changed = True
             
     def save(self, output_filename):
+        '''save the current arrangement to the given filenmame.'''
         self._write_output_file(None, output_filename)
 
     def kill(self):
