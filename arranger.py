@@ -51,7 +51,7 @@ def main(input_filename=None):
     else:
         engine = None
 
-    client = soundcloud.Client(access_token = "1-58137-40361369-f78a9445cc6c563")
+    client = soundcloud.Client(access_token = "1-58194-65838022-e30bc60d1afac57")
     
     while True:
         cmd = raw_input("arranger > ")
@@ -85,8 +85,18 @@ def main(input_filename=None):
                 if yesNo.lower().startswith("y"):
                     title = raw_input("Name your sound > ")
                     track = client.post('/tracks', track = {'title': title, 'asset_data': open(name, 'rb')})
-                    time.sleep(10)
-                    webbrowser.open(track.permalink_url)
+                    genre = raw_input("What genre is your sound? > ")
+                    tags = raw_input("Add tags. > ").split(",")
+                    if track.state == "finished":
+                        webbrowser.open(track.permalink_url)
+                        
+                    else:
+                        time.sleep(1)
+                        
+                    id_string = "/tracks/%s"%str(track.id)
+                    track = client.get(id_string)
+                    client.put(track.uri, track={'genre': genre, "tag_list" : tags)
+                    })
                 else:
                     continue
             else:
