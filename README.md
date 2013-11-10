@@ -9,6 +9,6 @@ Easily rearrange your audio by sections, even drop or repeat a section. Then pub
 Using
  * [The Echo Nest](http://developer.echonest.com)
  * [Remix](https://github.com/echonest/remix)
- * [SoundCloud](http://developer.soundcloud.com).
+ * [SoundCloud](http://developer.soundcloud.com)
 
 By David (@davedesro) & Nick DesRoches
