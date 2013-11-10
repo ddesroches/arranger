@@ -1,5 +1,7 @@
 The Lone Arranger
 =================
+[Theme Music](http://rd.io/e/QWh3hDfeSmc/)
+
 Ever felt like spicing up your track with a new arrangement, but didn't have the skills or time to use professional recording software?
 
 _The Lone Arranger_ rides to the rescue!
@@ -12,3 +14,4 @@ Using
  * [SoundCloud](http://developer.soundcloud.com)
 
 By David (@davedesro) & Nick DesRoches
+For Boston #musichackday 2013
