@@ -84,19 +84,16 @@ def main(input_filename=None):
                 yesNo = raw_input("Upload track to SoundCloud? (y/n) > ")
                 if yesNo.lower().startswith("y"):
                     title = raw_input("Name your sound > ")
-                    track = client.post('/tracks', track = {'title': title, 'asset_data': open(name, 'rb')})
                     genre = raw_input("What genre is your sound? > ")
-                    tags = raw_input("Add tags. > ").split(",")
-                    if track.state == "finished":
-                        webbrowser.open(track.permalink_url)
-                        
-                    else:
+                    tags = raw_input("Add comma-separated tags > ")
+                    track_dict = {'title': title, 'asset_data': open(name, 'rb'), 'genre': genre, 'tag_list': tags}
+                    track_dict.update({'sharing': 'public'})
+                    track = client.post('/tracks', track = track_dict)
+                    while track.state != "finished":
                         time.sleep(1)
-                        
-                    id_string = "/tracks/%s"%str(track.id)
-                    track = client.get(id_string)
-                    client.put(track.uri, track={'genre': genre, "tag_list" : tags)
-                    })
+                        track = client.get("/tracks/" + str(track.id))
+
+                    webbrowser.open(track.permalink_url)
                 else:
                     continue
             else:
